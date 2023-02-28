@@ -3,9 +3,10 @@ package ru.netology.delivery.test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 import ru.netology.delivery.data.DataGenerator;
 
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 class DeliveryTest {
 
@@ -17,6 +18,17 @@ class DeliveryTest {
     @Test
     @DisplayName("Should successful plan and replan meeting")
     void shouldSuccessfulPlanAndReplanMeeting() {
+        $("input[type='text']").setValue(DataGenerator.generateCity("ru"));
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("input[type='tel']").setValue(DataGenerator.generateDate(4));
+        $("input[name='name']").setValue(DataGenerator.generateName("ru"));
+        $("input[name='phone']").setValue(DataGenerator.generatePhone("ru"));
+        $("[data-test-id='agreement']").click();
+        $x("//span[text()='Запланировать']").click();
+        $x("//span[text()='Запланировать']").click();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("input[type='tel']").setValue(DataGenerator.generateDate(7));
+        $x("//span[text()='Перепланировать']").click();
         var validUser = DataGenerator.Registration.generateUser("ru");
         var daysToAddForFirstMeeting = 4;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
